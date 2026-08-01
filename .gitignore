@@ -1,0 +1,37 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!src/**/build/
+
+# Android build outputs
+*.apk
+*.aab
+*.dex
+*.class
+release/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+captures/
+.externalNativeBuild/
+.cxx/
+
+# VS Code
+.vscode/
+
+# Local SDK / machine-specific config
+local.properties
+
+# Keystores — never commit
+*.keystore
+*.jks
+keystore.properties
+
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
