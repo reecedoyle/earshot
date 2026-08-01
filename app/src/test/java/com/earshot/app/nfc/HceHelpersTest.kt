@@ -10,13 +10,13 @@ class HceHelpersTest {
     }
 
     @Test fun `parseSelectAid returns true for valid SELECT AID matching ours`() {
-        val select = "00A404000900".hexToBytes() + HceHelpers.AID_BYTES + "00".hexToBytes()
+        val select = "00A4040009".hexToBytes() + HceHelpers.AID_BYTES + "00".hexToBytes()
         assertThat(HceHelpers.parseSelectAid(select)).isTrue()
     }
 
     @Test fun `parseSelectAid returns false for SELECT AID of a different AID`() {
         val otherAid = ByteArray(9) { 0xAA.toByte() }
-        val select = "00A404000900".hexToBytes() + otherAid + "00".hexToBytes()
+        val select = "00A4040009".hexToBytes() + otherAid + "00".hexToBytes()
         assertThat(HceHelpers.parseSelectAid(select)).isFalse()
     }
 
