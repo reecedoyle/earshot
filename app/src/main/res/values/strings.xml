@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Earshot</string>
+    <string name="hce_service_description">Earshot contact pairing</string>
+    <string name="aid_group_description">Earshot pairing AID</string>
+</resources>
