@@ -65,4 +65,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
     testImplementation("com.google.truth:truth:1.4.4")
+    testImplementation("net.java.dev.jna:jna:5.14.0")
 }
