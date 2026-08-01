@@ -1,4 +1,4 @@
-package com.earshot.diag
+package com.earshot.app
 
 import android.content.BroadcastReceiver
 import android.content.Context

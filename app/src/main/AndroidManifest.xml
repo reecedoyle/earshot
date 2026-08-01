@@ -12,7 +12,7 @@
         android:usesPermissionFlags="neverForLocation" />
 
     <application
-        android:label="Earshot Diag"
+        android:label="Earshot"
         android:allowBackup="false"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
