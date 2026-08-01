@@ -10,12 +10,22 @@ build/
 *.dex
 *.class
 release/
+output-metadata.json
+
+# Logs
+*.log
+
+# Local SDK / machine-specific config
+local.properties
 
 # Android Studio / IntelliJ
 .idea/
 *.iml
 *.iws
 *.ipr
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
 captures/
 .externalNativeBuild/
 .cxx/
@@ -23,13 +33,16 @@ captures/
 # VS Code
 .vscode/
 
-# Local SDK / machine-specific config
-local.properties
-
 # Keystores — never commit
 *.keystore
 *.jks
 keystore.properties
+
+# Google Services (Firebase / GMS)
+google-services.json
+
+# Android Profiling
+*.hprof
 
 # OS junk
 .DS_Store
