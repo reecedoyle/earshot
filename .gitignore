@@ -51,3 +51,9 @@ ehthumbs.db
 
 # Superpowers SDD scratch workspaces
 .superpowers/
+
+# Transient test output captures
+green_test_output.txt
+red_test_output.txt
+test_output.txt
+task-*-report.md
