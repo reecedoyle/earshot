@@ -1,6 +1,6 @@
 package com.earshot.app.nfc
 
-class Payload(
+data class Payload(
     val displayName: String,
     val publicKey: ByteArray
 ) {
