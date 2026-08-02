@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Tab
@@ -107,12 +108,72 @@ private fun addContactVmFactory(app: EarshotApp, activityHost: () -> Activity?) 
             AddContactViewModel(app, activityHost) as T
     }
 
-@Composable private fun SafetyCodeBody(s: AddContactUiState.SafetyCode, vm: AddContactViewModel, onCancel: () -> Unit) {
-    Text("safety-code stub — replaced in Task 17")
+@Composable
+private fun SafetyCodeBody(
+    s: AddContactUiState.SafetyCode,
+    vm: AddContactViewModel,
+    onCancel: () -> Unit
+) {
+    Column(
+        Modifier.fillMaxSize().padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+    ) {
+        Text(
+            "Check this code matches on their phone",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(Modifier.height(24.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            s.emojis.forEach { emoji ->
+                Text(emoji, fontSize = 40.sp)
+            }
+        }
+        Spacer(Modifier.height(32.dp))
+        Text("Pairing with ${s.incoming.displayName}", fontSize = 14.sp)
+        Spacer(Modifier.height(24.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            OutlinedButton(onClick = onCancel) { Text("Cancel") }
+            Button(onClick = { vm.onSafetyConfirmed() }) { Text("Confirm") }
+        }
+    }
 }
-@Composable private fun DuplicatePubKeyDialog(s: AddContactUiState.DuplicatePubKey, vm: AddContactViewModel) {
-    Text("dup-pubkey stub — replaced in Task 17")
+@Composable
+private fun DuplicatePubKeyDialog(s: AddContactUiState.DuplicatePubKey, vm: AddContactViewModel) {
+    AlertDialog(
+        onDismissRequest = { vm.onDuplicateCancelled() },
+        title = { Text("Update existing contact?") },
+        text = {
+            Text(
+                "You've already paired with ${s.existing.displayName}. " +
+                "Their name is now ${s.incoming.displayName}."
+            )
+        },
+        confirmButton = {
+            Button(onClick = { vm.onDuplicateConfirmed() }) { Text("Update") }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = { vm.onDuplicateCancelled() }) { Text("Cancel") }
+        }
+    )
 }
-@Composable private fun DuplicateNameDialog(s: AddContactUiState.DuplicateName, vm: AddContactViewModel) {
-    Text("dup-name stub — replaced in Task 17")
+@Composable
+private fun DuplicateNameDialog(s: AddContactUiState.DuplicateName, vm: AddContactViewModel) {
+    AlertDialog(
+        onDismissRequest = { vm.onDuplicateCancelled() },
+        title = { Text("Save as new contact?") },
+        text = {
+            Text(
+                "You already have a contact called \"${s.existing.displayName}\" with a different key. " +
+                "Save this new one too?"
+            )
+        },
+        confirmButton = {
+            Button(onClick = { vm.onDuplicateConfirmed() }) { Text("Save") }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = { vm.onDuplicateCancelled() }) { Text("Cancel") }
+        }
+    )
 }
