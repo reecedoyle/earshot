@@ -57,3 +57,6 @@ green_test_output.txt
 red_test_output.txt
 test_output.txt
 task-*-report.md
+
+# Claude Code session files
+.claude/

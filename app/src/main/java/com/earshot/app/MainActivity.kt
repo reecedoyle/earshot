@@ -17,8 +17,6 @@ import com.earshot.app.ui.Route
 
 class MainActivity : ComponentActivity() {
 
-    val currentActivityRef: () -> ComponentActivity = { this }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

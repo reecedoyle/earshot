@@ -1,6 +1,5 @@
 package com.earshot.app.crypto
 
-import com.goterl.lazysodium.interfaces.GenericHash
 
 object SafetyCode {
     val ALPHABET: List<String> = listOf(

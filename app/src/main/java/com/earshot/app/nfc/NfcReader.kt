@@ -5,7 +5,6 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
 import android.os.Bundle
-import android.util.Log
 
 class NfcReader(private val activity: Activity) {
 
@@ -67,6 +66,4 @@ class NfcReader(private val activity: Activity) {
             runCatching { iso.close() }
         }
     }
-
-    companion object { private const val TAG = "NfcReader" }
 }

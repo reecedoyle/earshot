@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -36,7 +37,7 @@ fun NfcStateBanner(state: NfcState) {
     ) {
         Text(msg, color = Color(0xFF5D2E00))
         if (cta != null) {
-            Spacer(Modifier.padding(top = 4.dp))
+            Spacer(Modifier.height(4.dp))
             Row {
                 TextButton(onClick = {
                     context.startActivity(Intent(Settings.ACTION_NFC_SETTINGS))

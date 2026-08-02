@@ -52,7 +52,7 @@ class AddContactViewModel(
             identity = id
             configureController()
             bridge.setPayload(PayloadCodec.encode(id.displayName, id.publicKey))
-            bridge.onRead { controller.onEvent(PairingEvent.HceWasRead) }
+            bridge.onRead { viewModelScope.launch { controller.onEvent(PairingEvent.HceWasRead) } }
         }
     }
 
@@ -63,12 +63,20 @@ class AddContactViewModel(
     }
 
     fun startPairing() {
+        if (!::controller.isInitialized) return
         if (mode == Mode.AUTO) controller.startAuto()
         else _uiState.value = AddContactUiState.Ready(mode, Progress.IDLE, computeNfcState())
     }
 
-    fun manualSend() { controller.startManualSend() }
-    fun manualReceive() { controller.startManualReceive() }
+    fun manualSend() {
+        if (!::controller.isInitialized) return
+        controller.startManualSend()
+    }
+
+    fun manualReceive() {
+        if (!::controller.isInitialized) return
+        controller.startManualReceive()
+    }
 
     fun onSafetyConfirmed() {
         val inc = incoming ?: return
@@ -90,6 +98,13 @@ class AddContactViewModel(
     fun onDuplicateConfirmed() {
         val inc = incoming ?: return
         viewModelScope.launch { persist(inc) }
+    }
+
+    fun refreshNfcState() {
+        val current = _uiState.value
+        if (current is AddContactUiState.Ready) {
+            _uiState.value = current.copy(nfcState = computeNfcState())
+        }
     }
 
     fun onDuplicateCancelled() {
@@ -158,7 +173,9 @@ class AddContactViewModel(
                     reader = NfcReader(activity).also {
                         it.start(
                             onPayload = { p ->
-                                controller.onEvent(PairingEvent.ReaderReadSucceeded(p))
+                                viewModelScope.launch {
+                                    controller.onEvent(PairingEvent.ReaderReadSucceeded(p))
+                                }
                             },
                             onError = { /* auto retries via alternation; manual will surface via timeout */ }
                         )

@@ -16,6 +16,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,9 +34,23 @@ fun AddContactScreen(
     onCancelled: () -> Unit,
     activityHost: () -> Activity?
 ) {
-    val app = LocalContext.current.applicationContext as EarshotApp
+    val context = LocalContext.current
+    val app = context.applicationContext as EarshotApp
     val vm: AddContactViewModel = viewModel(factory = addContactVmFactory(app, activityHost))
     val state by vm.uiState.collectAsState()
+
+    DisposableEffect(Unit) {
+        val receiver = object : android.content.BroadcastReceiver() {
+            override fun onReceive(ctx: android.content.Context?, intent: android.content.Intent?) {
+                vm.refreshNfcState()
+            }
+        }
+        val filter = android.content.IntentFilter(android.nfc.NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)
+        androidx.core.content.ContextCompat.registerReceiver(
+            context, receiver, filter, androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        onDispose { context.unregisterReceiver(receiver) }
+    }
 
     LaunchedEffect(state) {
         if (state is AddContactUiState.Saved) onSaved()
