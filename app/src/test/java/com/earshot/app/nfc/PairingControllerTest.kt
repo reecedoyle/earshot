@@ -43,6 +43,11 @@ class PairingControllerTest {
         assertThat(f.roles.last()).isEqualTo(PairingRole.HCE)
 
         c.onEvent(PairingEvent.HceWasRead)  // one direction done
+        // wasReadByPeer flipped, but role and phase have NOT changed — user must swap
+        assertThat(c.phase.value).isEqualTo(PairingPhase.MANUAL_SENDING)
+        assertThat(f.roles.last()).isEqualTo(PairingRole.HCE)
+
+        c.startManualReceive()  // user taps Receive
         assertThat(c.phase.value).isEqualTo(PairingPhase.MANUAL_RECEIVING)
         assertThat(f.roles.last()).isEqualTo(PairingRole.READER)
 

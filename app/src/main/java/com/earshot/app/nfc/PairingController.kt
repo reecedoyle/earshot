@@ -55,13 +55,11 @@ class PairingController(
     }
 
     fun startManualSend() {
-        reset()
         _phase.value = PairingPhase.MANUAL_SENDING
         setRole(PairingRole.HCE)
     }
 
     fun startManualReceive() {
-        reset()
         _phase.value = PairingPhase.MANUAL_RECEIVING
         setRole(PairingRole.READER)
     }
@@ -121,18 +119,8 @@ class PairingController(
                     if (readFromPeer != null) PairingRole.HCE else PairingRole.READER
                 )
             }
-            PairingPhase.MANUAL_SENDING -> {
-                if (wasReadByPeer) {
-                    _phase.value = PairingPhase.MANUAL_RECEIVING
-                    setRole(PairingRole.READER)
-                }
-            }
-            PairingPhase.MANUAL_RECEIVING -> {
-                if (readFromPeer != null) {
-                    _phase.value = PairingPhase.MANUAL_SENDING
-                    setRole(PairingRole.HCE)
-                }
-            }
+            PairingPhase.MANUAL_SENDING -> Unit    // wait for user to tap Receive
+            PairingPhase.MANUAL_RECEIVING -> Unit  // wait for user to tap Send
             else -> Unit
         }
     }
@@ -151,7 +139,7 @@ class PairingController(
     private fun armTimeout() {
         timeoutJob = scope.launch {
             delay(30_000L)
-            if (_phase.value != PairingPhase.COMPLETE) {
+            if (_phase.value == PairingPhase.AUTO_PHASE_1 || _phase.value == PairingPhase.AUTO_PHASE_2) {
                 onEvent(PairingEvent.Timeout)
             }
         }
