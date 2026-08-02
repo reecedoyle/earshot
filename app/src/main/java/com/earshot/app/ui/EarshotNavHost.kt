@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.earshot.app.diag.DiagnosticScreen
+import com.earshot.app.ui.home.HomeScreen
 import com.earshot.app.ui.settings.SettingsScreen
 import com.earshot.app.ui.setup.NameSetupScreen
 
@@ -21,7 +22,12 @@ fun EarshotNavHost(startAt: Route, hostActivity: ComponentActivity) {
                 }
             })
         }
-        composable(Route.Home.path)       { Text("Home stub — replaced in Task 15") }
+        composable(Route.Home.path) {
+            HomeScreen(
+                onAdd = { nav.navigate(Route.AddContact.path) },
+                onOpenSettings = { nav.navigate(Route.Settings.path) }
+            )
+        }
         composable(Route.Settings.path)   { SettingsScreen(onOpenDiagnostic = { nav.navigate(Route.Diagnostic.path) }) }
         composable(Route.Diagnostic.path) { DiagnosticScreen() }
         composable(Route.AddContact.path) { Text("AddContact stub — replaced in Task 16") }
